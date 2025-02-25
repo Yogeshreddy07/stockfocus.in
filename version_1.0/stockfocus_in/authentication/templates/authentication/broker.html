@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFocus.in - Broker</title>
+    
+    <!-- Internal CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #000;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar ul li a:hover {
+            color: #00aaff;
+        }
+        
+        .user-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .get-started {
+            background-color: #f70054;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .broker-section {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        
+        .broker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .broker-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .broker-card h2 {
+            margin-bottom: 10px;
+        }
+        
+        .broker-card p {
+            margin-bottom: 15px;
+        }
+        
+        .broker-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #00aaff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .broker-link:hover {
+            background-color: #007acc;
+        }
+    </style>
+
+    <!-- Include Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">STOCKFOCUS.IN</div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'community' %}">Community</a></li>
+                    <li><a href="{% url 'markets' %}">Markets</a></li>
+                    <li><a href="{% url 'news' %}">News</a></li>
+                    <li><a href="{% url 'broker' %}">Broker</a></li>
+                    <li><a href="{% url 'learn' %}">Learn</a></li>
+                </ul>
+            </nav>
+            <div class="user-icons">
+                <a href="{% url 'home' %}">
+                    <button class="get-started">Get Started</button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="broker-section">
+        <h1>Choose Your Broker For Trading</h1>
+        <div class="broker-grid">
+            <div class="broker-card">
+                <h2>Zerodha</h2>
+                <p>Reliable brokerage services with advanced tools.</p>
+                <a href="https://zerodha.com/" target="_blank" class="broker-link">Visit Zerodha</a>
+            </div>
+            <div class="broker-card">
+                <h2>TradingView</h2>
+                <p>Competitive rates and a user-friendly platform.</p>
+                <a href="https://in.tradingview.com/" target="_blank" class="broker-link">Visit TradingView</a>
+            </div>
+            <div class="broker-card">
+                <h2>Dhan</h2>
+                <p>24/7 support and educational resources.</p>
+                <a href="https://dhan.co/" target="_blank" class="broker-link">Visit Dhan</a>
+            </div>
+        </div>
+    </section>
+    <script>
+        <button class="get-started" onclick="window.location.href='{% url 'home' %}'">Get Started</button>
+    </script>
+
+</body>
+</html>

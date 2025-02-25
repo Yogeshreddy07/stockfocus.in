@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFocus.in - Stock Course Details</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #000;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar ul li a:hover {
+            color: #00aaff;
+        }
+        
+        .user-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .get-started {
+            background-color: #f70054;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .course-section {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .course-info {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .course-info h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .course-info p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .enroll-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00aaff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .video-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .video-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">STOCKFOCUS.IN</div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'community' %}">Community</a></li>
+                    <li><a href="{% url 'markets' %}">Markets</a></li>
+                    <li><a href="{% url 'news' %}">News</a></li>
+                    <li><a href="{% url 'broker' %}">Broker</a></li>
+                    <li><a href="{% url 'learn' %}">Learn</a></li>
+                </ul>
+            </nav>
+            <div class="user-icons">
+                <a href="{% url 'home' %}">
+                    <button class="get-started">Get Started</button>
+                </a>                
+            </div>
+        </div>
+    </header>
+
+    <section class="course-section">
+        <div class="course-info">
+            <h1>Stock Market Mastery Course</h1>
+            <p><strong>Introduction:</strong> Unlock the secrets of the stock market with our comprehensive course designed for beginners and intermediate traders alike. Learn the core concepts, strategies, and practical techniques to build your confidence and become a savvy investor.</p>
+            
+            <p><strong>What You’ll Learn:</strong></p>
+            <ul>
+                <li>Understanding Stock Market Fundamentals</li>
+                <li>Analyzing Market Trends and Indicators</li>
+                <li>Technical vs. Fundamental Analysis</li>
+                <li>Risk Management and Portfolio Building</li>
+                <li>Live Trading Simulations & Real-World Examples</li>
+            </ul>
+            
+            <p><strong>Duration:</strong> 8 Weeks (2 Sessions/Week)</p>
+            <p><strong>Price:</strong> $299</p>
+            
+            <a href="#" class="enroll-btn">Enroll Now</a>
+        </div>
+
+        <div class="video-section">
+            <h2>Course Overview Video</h2>
+            <video controls>
+                <source src="/media/stockfocus.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+        </div>
+    </section>
+    <script>
+        <button class="get-started" onclick="window.location.href='{% url 'home' %}'">Get Started</button>
+    </script>
+</body>
+</html>

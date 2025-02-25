@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockfocus.in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">STOCKFOCUS.IN</div>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'community' %}">Community</a>
+                <a href="{% url 'markets' %}">Markets</a>
+                <a href="{% url 'news' %}">News</a>
+                <a href="{% url 'broker' %}">Broker</a>
+                <a href="{% url 'learn' %}">Learn</a>
+            </nav>
+            <div class="header-icons">
+                <a class="get-started" href="{% url 'signin' %}">Sign In</a>
+                <a class="get-started" href="{% url 'signup' %}">Sign Up</a>
+                <button class="get-started">Get Started</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Tagline & Course Cards -->
+    <section class="hero">
+        <h1>Learn. Connect. Invest !..</h1> 
+        <h2>Join a thriving community of stock market enthusiasts, gain expert insights, and take your trading game to the next level!</h2>
+        
+        <div class="course-slider">
+            <div class="course-grid">
+                {% for course in courses %}
+                <div class="course-card">
+                    <img src="{% static course.image %}" alt="{{ course.title }}">
+                    <h3>{{ course.title }}</h3>
+                    <a href="{% url 'course_detail' course_id=1 %}">
+                        <button>Enroll For Free</button>
+                    </a>
+                    <p>{{ course.enrolled }} already enrolled</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const courseGrid = document.querySelector(".course-grid");
+            const duplicate = courseGrid.innerHTML;
+            courseGrid.innerHTML += duplicate; // Duplicate cards for smooth looping
+        });
+    </script>
+</body>
+</html>

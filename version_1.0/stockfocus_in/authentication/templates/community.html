@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFocus.in - Community</title>
+    <style>
+        /* Reset and Basic Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            background-image: url("{% static '/images/uidd.jpg' %}");
+            background-size: cover; /* Adjust as needed: cover, contain, or specific size */
+            background-repeat: no-repeat;
+            background-position: center function;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        .user-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .get-started {
+            background-color: #f70054;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Community Section Styling */
+        .community-section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .discussion-post {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 244, 244, 0.95);
+        }
+
+        .post-content h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .post-content p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .edit-button {
+            background-color: #ffa500;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-button:hover {
+            background-color: #ff8700;
+        }
+
+        /* Add Post Section */
+        .add-post {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .post-input {
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            width: 300px;
+            outline: none;
+        }
+
+        .post-button {
+            background-color: #00aaff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .post-button:hover {
+            background-color: #008acb;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">STOCKFOCUS.IN</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'community' %}">Community</a></li>
+                <li><a href="{% url 'markets' %}">Markets</a></li>
+                <li><a href="{% url 'news' %}">News</a></li>
+                <li><a href="{% url 'broker' %}">Broker</a></li>
+                <li><a href="{% url 'learn' %}">Learn</a></li>
+            </ul>
+        </nav>
+        <div class="user-icons">
+            <a href="{% url 'home' %}">
+                <button class="get-started">Get Started</button>
+            </a>
+        </div>
+    </div>
+</header>
+
+<section class="community-section">
+    <h1>Community Discussions</h1>
+
+    <!-- Display Existing Posts -->
+    {% for post in discussions %}
+    <div class="discussion-post">
+        <div class="post-content">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content }}</p>
+        </div>
+        <a href="{% url 'edit_post' post.id %}">
+            <button class="edit-button">Edit</button>
+        </a>
+    </div>
+    {% empty %}
+    <p>No discussions yet. Be the first to start one!</p>
+    {% endfor %}
+</section>
+
+<!-- Add New Post Form -->
+<div class="add-post">
+    <form action="{% url 'add_post' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Post Title..." class="post-input" required>
+        <input type="text" name="content" placeholder="Add your comment or topic..." class="post-input" required>
+        <button type="submit" class="post-button">Post</button>
+    </form>
+</div>
+<script>
+    <button class="get-started" onclick="window.location.href='{% url 'home' %}'">Get Started</button>
+</script>
+
+</body>
+</html>
