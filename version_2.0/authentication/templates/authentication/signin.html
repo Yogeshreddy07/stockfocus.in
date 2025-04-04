@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icons .get-started {
+            background-color: #ff4081;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .header-icons .get-started:hover {
+            background-color: #e73370;
+        }
+
+        .container {
+            background-color: #fff;
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: auto;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #4a4a4a;
+            position: relative;
+        }
+
+        h3::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: #4a4a4a;
+            margin: 8px auto 0;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #4a4a4a;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background: #4a4a4a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            color: #fff;
+            background: #ff4d4d;
+            text-align: center;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .alert .close {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .additional-links {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .additional-links a {
+            color: #4a4a4a;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .additional-links a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #4a4a4a;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #ff4081;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">STOCKFOCUS.IN</div>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'community' %}">Community</a>
+                <a href="{% url 'learn_with_ai' %}">StockFocus-AI</a>
+                <a href="{% url 'learn' %}">Learn</a>
+                <a href="{% url 'news' %}">News</a>
+            </nav>
+            <div class="header-icons">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }}!</span>
+                    <a class="get-started" href="{% url 'signout' %}">Sign Out</a>
+                {% else %}
+                    <a class="get-started" href="{% url 'signin' %}">Sign In</a>
+                    <a class="get-started" href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>Message:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+
+        <h3>Log In to your account!</h3>
+        <form method="post" action="/signin" class="mb-2">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Your Username" required>
+            </div>
+            <div class="form-group">
+                <label for="pass1">Password</label>
+                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter Your Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Log In</button>
+        </form>
+
+        <div class="additional-links">
+            <a href="{% url 'signup' %}">Don't have an account? Register</a>
+            <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 STOCKFOCUS.IN Platform. All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart"></i> by Team STOCKFOCUS.IN</p>
+    </footer>
+</body>
+</html>

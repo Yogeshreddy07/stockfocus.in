@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFocus.in - News</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icons .get-started {
+            background-color: #ff4081;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .header-icons .get-started:hover {
+            background-color: #e73370;
+        }
+
+        .news-section {
+            text-align: center;
+            padding: 50px 20px;
+            flex: 1;
+        }
+
+        .news-section h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .news-article {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-article h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .news-article p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: #4a4a4a;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #ff4081;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .news-article {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .news-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-article h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .news-article p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .news-article img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .news-article small {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .news-title-box {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .news-title-box:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+
+        .news-title-box h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .news-title-box .news-date {
+            margin-top: 5px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .news-content {
+            margin-top: 10px;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .news-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+</style>
+    
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">STOCKFOCUS.IN</div>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'community' %}">Community</a>
+                <a href="{% url 'learn_with_ai' %}">StockFocus-AI</a>
+                <a href="{% url 'learn' %}">Learn</a>
+                <a href="{% url 'news' %}">News</a>
+            </nav>
+            <div class="header-icons">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }}!</span>
+                    <a class="get-started" href="{% url 'signout' %}">Sign Out</a>
+                {% else %}
+                    <a class="get-started" href="{% url 'signin' %}">Sign In</a>
+                    <a class="get-started" href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <div class="news-section">
+        <h1>Latest News</h1>
+        {% for news in news_list %}
+        <div class="news-article">
+            <!-- Title box with onclick event -->
+            <div class="news-title-box" onclick="toggleContent(this)">
+                <h2>{{ news.title }}</h2>
+                <!-- Display date and time -->
+                <p class="news-date">
+                    <small>Published on {{ news.created_at|date:"F j, Y, g:i A" }}</small>
+                </p>
+            </div>
+            <!-- Content initially hidden -->
+            <div class="news-content" style="display: none;">
+                <p>{{ news.content }}</p>
+                {% if news.image %}
+                <img src="{{ news.image.url }}" alt="{{ news.title }}" style="max-width: 100%; border-radius: 10px;">
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p>No news available at the moment. Please check back later.</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        // JavaScript function to toggle the visibility of the content
+        function toggleContent(element) {
+            const content = element.nextElementSibling; // Get the next sibling (content div)
+            if (content.style.display === "none" || content.style.display === "") {
+                content.style.display = "block"; // Show content
+            } else {
+                content.style.display = "none"; // Hide content
+            }
+        }
+    </script>
+
+    <footer>
+        <p>© 2025 LearnLoomX Platform. All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart"></i> by TechTitans</p>
+    </footer>
+</body>
+</html>

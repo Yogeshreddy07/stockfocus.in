@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STOCKFOCUS.IN</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #4a4a4a;
+      color: white;
+      padding: 10px 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .navbar nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons .get-started {
+      background-color: #ff4081;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    .header-icons .get-started:hover {
+      background-color: #e73370;
+    }
+
+    .learn-section {
+      text-align: center;
+      padding: 50px 20px;
+      flex: 1;
+    }
+
+    .learn-section h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .course-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 320px;
+      margin: auto;
+    }
+
+    .course-card img {
+      width: 100%;
+      height: 180px; /* Fixed height for uniformity */
+      object-fit: cover; /* Ensures all images fit well */
+      border-radius: 10px;
+    }
+
+    .course-card h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #333;
+    }
+
+    .course-card button {
+      background-color: #ff0066;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 80%;
+    }
+
+    .course-card button:hover {
+      background-color: #cc0052;
+    }
+
+    .course-card p {
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .market-data {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      color: #333;
+      padding: 8px 15px;
+      border-radius: 20px;
+      width: 300px;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      margin-left: 8px;
+    }
+
+    .market-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #f8f8f8;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 10px;
+      width: 180px;
+      font-weight: bold;
+    }
+
+    .nifty .indicator-value {
+      color: #4CAF50;
+    }
+
+    .sensex .indicator-value {
+      color: #FF3B30;
+    }
+
+    .inr .indicator-value {
+      color: #FF9500;
+    }
+
+    .chat-now {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #4a4a4a;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: auto;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    footer a {
+      color: #ff4081;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">STOCKFOCUS.IN</div>
+      <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'community' %}">Community</a>
+        <a href="{% url 'learn_with_ai' %}">StockFocus-AI</a>
+        <a href="{% url 'learn' %}">Learn</a>
+        <a href="{% url 'news' %}">News</a>
+      </nav>
+      <div class="header-icons">
+        {% if user.is_authenticated %}
+          <span>Welcome, {{ user.username }}!</span>
+          <a class="get-started" href="{% url 'signout' %}">Sign Out</a>
+        {% else %}
+          <a class="get-started" href="{% url 'signin' %}">Sign In</a>
+          <a class="get-started" href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <section class="learn-section">
+    <h1>LEARN</h1>
+    <div class="course-grid">
+      {% for course in courses %}
+        <div class="course-card">
+          <img src="{{ course.image.url }}" alt="{{ course.title }}">
+          <h3>{{ course.title }}</h3>
+          {% if course.is_enrolled %}
+            <a href="{% url 'resume_course' course_id=course.id %}">
+              <button>Resume</button>
+            </a>
+          {% else %}
+            <a href="{% url 'enroll_course' course_id=course.id %}">
+              <button>Enroll For Free</button>
+            </a>
+          {% endif %}
+          <p>{{ course.enrollment_count }} already enrolled</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 STOCKFOCUS.IN Platform. All rights reserved.</p>
+    <p>Made with <i class="fas fa-heart"></i> by Team STOCKFOCUS.IN</p>
+</footer>
+</body>
+</html>

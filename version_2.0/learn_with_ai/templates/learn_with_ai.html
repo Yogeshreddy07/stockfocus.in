@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn With AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icons .get-started {
+            background-color: #ff4081;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .header-icons .get-started:hover {
+            background-color: #e73370;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+        }
+
+        textarea {
+            width: 80%;
+            max-width: 500px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #e73370;
+        }
+
+        .response-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            text-align: left;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            white-space: pre-wrap; /* Preserve new lines */
+        }
+
+        footer {
+            background-color: #4a4a4a;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #ff4081;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="navbar">
+            <div class="logo">STOCKFOCUS.IN</div>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'community' %}">Community</a>
+                <a href="{% url 'news' %}">StockFocus-AI</a>
+                <a href="{% url 'learn' %}">Learn</a>
+                <a href="{% url 'news' %}">News</a>
+            </nav>
+            <div class="header-icons">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }}!</span>
+                    <a class="get-started" href="{% url 'signout' %}">Sign Out</a>
+                {% else %}
+                    <a class="get-started" href="{% url 'signin' %}">Sign In</a>
+                    <a class="get-started" href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h2>StockFocus-AI: Your Smart Investment Assistant</h2>
+        <textarea id="userInput" rows="4" cols="50"></textarea><br>
+        <button onclick="sendMessage()">Send</button>
+        <p><strong>Response:</strong></p>
+        <div id="response" class="response-box"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 STOCKFOCUS.IN Platform. All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart"></i> by Team STOCKFOCUS.IN</p>
+    </footer>
+
+    <script>
+        function getCSRFToken() {
+            let cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                let [name, value] = cookie.trim().split('=');
+                if (name === 'csrftoken') {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        function formatResponse(response) {
+            // Replace ** with bold text and # with new lines
+            return response
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+                .replace(/#/g, '\n'); // New lines
+        }
+
+        function sendMessage() {
+            let message = document.getElementById("userInput").value;
+            let csrfToken = getCSRFToken();
+
+            fetch("/api/ollama/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                },
+                body: JSON.stringify({ message: message }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const formattedResponse = formatResponse(data.response || "Error occurred!");
+                document.getElementById("response").innerHTML = formattedResponse;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
