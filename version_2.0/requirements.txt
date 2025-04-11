@@ -1,0 +1,37 @@
+# Core Django packages
+Django==4.2
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+gunicorn==21.2.0  # WSGI HTTP server for Linux deployment
+
+# Database (default: SQLite; use psycopg2 for PostgreSQL)
+psycopg2-binary==2.9.9  # If using PostgreSQL
+
+# Authentication & Security
+python-dotenv==1.0.1
+bcrypt==4.1.2
+
+# Static/media file handling
+whitenoise==6.6.0  # Serve static files in production
+
+# Deployment
+requests==2.31.0
+urllib3==2.2.1
+
+# Docker & CI/CD support
+docker==7.0.0
+
+# LLM / AI API integration (example for requests + Ollama)
+openai==1.14.3  # Or use if Ollama compatible via local API
+
+
+# Optional: For JSON responses and serializers
+ujson==5.9.0
+
+# Optional: Useful dev tools
+black==24.3.0
+flake8==7.0.0
+
+Pillow
+
+six

@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'stockfocus-app'
+        IMAGE_TAG = 'latest'
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning GitHub Repository...'
+                // Jenkins handles cloning automatically
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                bat "docker stop %IMAGE_NAME% || echo not running"
+                bat "docker rm %IMAGE_NAME% || echo not found"
+                bat "docker run -d -p 8000:8000 --name %IMAGE_NAME% %IMAGE_NAME%:%IMAGE_TAG%"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Build and container run completed successfully.'
+        }
+        failure {
+            echo '❌ Something went wrong during the build or deploy.'
+        }
+    }
+}
